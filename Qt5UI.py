@@ -38,6 +38,7 @@ from PyQt5.QtWidgets import QApplication, \
     QTextEdit
 from PyQt5 import QtGui
 from PyQt5.QtGui import QFont
+from PyQt5.QtGui import QTextOption,QTextCursor
 from PyQt5 import QtCore
 from PyQt5.Qt import Qt,QTimer
 import os
@@ -76,7 +77,7 @@ class Alt_textArea(QTextEdit):
             self.PickDict.emit(a0.text().lower())
 
 
-placeholderSpaces = "\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"
+placeholderSpaces = "\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"
 
 
 class mainWindow (QMainWindow):
@@ -195,6 +196,8 @@ class mainWindow (QMainWindow):
         #print(conf['customFile','stylish'])
         #self.setStyleSheet('QPushButton{color:red;}')
         self.setStyleSheet(conf['customFile','stylish'])
+        self.Textarea.setWordWrapMode(QTextOption.NoWrap)
+        self.Textarea.textCursor().setKeepPositionOnInsert(False)
 
     def cpText(self):
         pass
@@ -208,11 +211,21 @@ class mainWindow (QMainWindow):
     def highlightText(self):
         self.Textarea.blockSignals(True)
         _cur = self.Textarea.textCursor()
+        _curpos = _cur.position()
         _s = self.Textarea.toPlainText()
         _r = toFixedLns(_s)
         self.Textarea.setText(_r)
-        self.Textarea.setTextCursor(_cur)
+        _newcur = QTextCursor(self.Textarea.document())
+        _newcur.setPosition(_curpos)
+        self.Textarea.setTextCursor(_newcur)
+        """
+        print(_curpos)
+        self.Textarea.textCursor().setPosition(_curpos)
+        print(self.Textarea.textCursor().position())
+        """
         self.Textarea.blockSignals(False)
+        print(self.Textarea.textCursor().position())
+
 
     @pyqtSlot(str)
     def pickWord(self,word):
