@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['Qt5UI.py'],
-             pathex=['D:\\Github\\cnfurikana'],
+             pathex=['D:\\Github\\Nostear-setto'],
              binaries=[],
              datas=[
              ( 'resources', 'resources' ),
@@ -23,7 +23,7 @@ exe = EXE(pyz,
           a.scripts,
           [],
           exclude_binaries=True,
-          name='cnfurikana-1.4.0qt',
+          name='Nostear-setto-0.1.0',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
