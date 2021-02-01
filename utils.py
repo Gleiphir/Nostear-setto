@@ -2,9 +2,9 @@ import textwrap
 
 
 
-"""
+
 def toFixedLns(text:str):
-    if len(text) < 18:
+    if len(text) <= 18:
         return "<b>"+ text +"</b>"
     _L = []
     for _line in textwrap.wrap(text.replace("\n", ""), width=18):
@@ -16,14 +16,14 @@ def toFixedLns(text:str):
     return "".join(_L)
 """
 def toFixedLns(text:str):
-    if len(text) < 18:
+    if len(text) <= 18:
         return  text
     _L = []
     for _line in textwrap.wrap(text.replace("\n", ""), width=18):
         _L.append(_line)
         _L.append( "\n")
     return "".join(_L)
-
+"""
 
 def popLns(text:str):
     trim = text.replace("\n", "")

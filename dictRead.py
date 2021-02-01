@@ -8,6 +8,7 @@ class Dict:
                 self.ori = json.load(F)
             self._comment = self.ori['comment']
             self._author = self.ori['author']
+            self._time = self.ori['time']
             self.data = self.ori['data']
 
             self.dict = {} # dict: key => dict
@@ -23,10 +24,13 @@ class Dict:
         except KeyError as ke:
             print("File not valid")
 
-    def author(self):
+    def getAuthor(self):
         return self._author
 
-    def comment(self):
+    def getTime(self):
+        return self._time
+
+    def getComment(self):
         return self._comment
 
     def ListKey(self, key:str):

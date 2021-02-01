@@ -11,6 +11,8 @@ It's a free software, do NOT pay for this.
 此为自由软件，请不要为此付费。
 これはフリーソフトであるので無料です。
 
+pyinstaller --noconfirm --onedir --windowed --name "Nostear-setto-0.1.0" --clean --add-data "D:/Github/Nostear-setto/settings;settings/" --add-data "D:/Github/Nostear-setto/resources;resources/" --exclude-module "PyQt5"  "D:/Github/Nostear-setto/Qt5UI.py"
+
 """
 
 about_text = """ \
@@ -36,11 +38,11 @@ from PyQt5.QtWidgets import QApplication, \
     QFileDialog, QPushButton, QLabel, \
     QGridLayout, QLineEdit, QFrame, \
     QTextEdit
-from PyQt5 import QtGui
-from PyQt5.QtGui import QFont
+
+from PyQt5.QtGui import QFont,QKeyEvent,QWheelEvent,QMouseEvent
 from PyQt5.QtGui import QTextOption,QTextCursor
-from PyQt5 import QtCore
-from PyQt5.Qt import Qt,QTimer
+
+from PyQt5.Qt import QTimer
 import os
 import sys
 from utils import toFixedLns,popLns
@@ -63,11 +65,11 @@ class Alt_textArea(QTextEdit):
         super(Alt_textArea, self).__init__(parent=parent)
 
 
-    def keyPressEvent(self, a0: QtGui.QKeyEvent) -> None:
+    def keyPressEvent(self, a0: QKeyEvent) -> None:
         #print(a0.text())
         modifiers = QApplication.keyboardModifiers()
         alt = False
-        if not modifiers & QtCore.Qt.AltModifier:
+        if not modifiers & Qt.AltModifier:
             QTextEdit.keyPressEvent(self,a0)
             return
         else:
@@ -77,7 +79,7 @@ class Alt_textArea(QTextEdit):
             self.PickDict.emit(a0.text().lower())
 
 
-placeholderSpaces = "\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"
+placeholderSpaces = "\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"
 
 
 class mainWindow (QMainWindow):
@@ -128,6 +130,7 @@ class mainWindow (QMainWindow):
         self.placeholder.setText(placeholderSpaces)
 
         self.MeaningList = QLabel(self)
+        self.MeaningList.setTextInteractionFlags(Qt.TextSelectableByMouse)
         #self.LRTOut.setMaximumWidth(self.maxLineWidth)
         #self.LRTOut.setWordWrap(True)
 
@@ -224,7 +227,7 @@ class mainWindow (QMainWindow):
         print(self.Textarea.textCursor().position())
         """
         self.Textarea.blockSignals(False)
-        print(self.Textarea.textCursor().position())
+        #print(self.Textarea.textCursor().position())
 
 
     @pyqtSlot(str)
@@ -249,7 +252,8 @@ class mainWindow (QMainWindow):
 
     def setCandidates(self,key):
         if not self.D:
-            self.UsingDictFile.setText("请选择字典文件")
+            print("D not specified")
+            self.LFileName.setText("请选择字典文件")
             return
         words = self.D.ListKey(key)# dict {word: [meaning1 , meaning2, ]}
         self.clearCandidates()
@@ -258,7 +262,7 @@ class mainWindow (QMainWindow):
 
 
 
-    def wheelEvent(self, a0: QtGui.QWheelEvent) -> None:
+    def wheelEvent(self, a0: QWheelEvent) -> None:
         #print(a0.angleDelta().y())
         if self.wheelLock:
             return
@@ -271,7 +275,7 @@ class mainWindow (QMainWindow):
         self.wheelLock = False
 
 
-    def mousePressEvent(self, a0: QtGui.QMouseEvent) -> None:
+    def mousePressEvent(self, a0: QMouseEvent) -> None:
         pass#print(a0.angleDelta().y())
 
     def about(self):
@@ -282,8 +286,9 @@ class mainWindow (QMainWindow):
         self.file_path,filetype= QFileDialog.getOpenFileName(self,"Source File")
         #if filetype
         self.D = dictRead.Dict(fileName=self.file_path)
-        hint = os.path.basename(self.file_path) +" - " + self.D.author()
+        hint = os.path.basename(self.file_path) +" - " + self.D.getAuthor() + " - " + self.D.getTime()
         self.LFileName.setText(hint)
+        #self.Textarea.PickDict.disconnect()
         self.Textarea.PickDict.connect(self.D.ListKey)
         #SV_file_path.set("source: [  " + file_path + "  ]")
 
