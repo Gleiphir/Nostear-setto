@@ -29,6 +29,20 @@ QFrame > .QLabel{
     background-color:#F0FFF0;
 }
 
+#userWarnLabel{
+    color:#f0472e;
+    font-weight: bold;
+    background-color:#54d4ff;
+}
+
+#Xffix{
+    border: 2px solid gray;
+    border-width: 1px 1px 1px 1px;
+    border-radius: 5px;
+    background: #FFE4E1;
+    selection-background-color: darkgray;
+}
+
 QMainWindow QLineEdit {
     border: 2px solid gray;
     border-width: 3px 3px 3px 3px;
