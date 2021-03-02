@@ -18,6 +18,11 @@ Alt+Enter即可发送对应弹幕，也可点击右侧发送按钮。
 向上滚动鼠标滚轮以将第一行复制到剪贴板。
 复制的弹幕会自动附加前后缀，默认为[]
 
+## 前后缀
+在左下角的前后缀框内，可以输入以英文~分割的前后缀
+
+# 总在最前
+令窗口总在最前，点击时窗口闪烁属于正常现象。
 
 # 安全性
 使用Cookie登录，可以通过修改密码令Cookie失效，组内共享账户也安全
@@ -30,4 +35,4 @@ https://live.bilibili.com/
 支持弹幕颜色和位置
 
 # download:
-https://github.com/Gleiphir/Nostear-setto/releases/download/1.2.0/Nostear-setto-1.2.0.zip
+https://github.com/Gleiphir/Nostear-setto/releases/download/1.2.2/Nostear-setto-1.2.2.zip
